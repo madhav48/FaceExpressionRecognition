@@ -1,0 +1,146 @@
+{
+  "metadata": {
+    "name": "Main File Latest",
+    "language_info": {
+      "name": "JavaScipt",
+      "version": "8.0"
+    }
+  },
+  "jsnbversion": "v0.1",
+  "cells": [
+    {
+      "code": "<h1> Load CSV File Into Array of Appropriate Shape </h1>",
+      "status": "",
+      "output": "<h1> Load CSV File Into Array of Appropriate Shape </h1>",
+      "type": "html"
+    },
+    {
+      "code": " load_file().then(csv=>{data=[].from_csv(csv)})",
+      "status": "[4]<br><span style=\"font-size:8px\">1ms<span></span></span>",
+      "output": "{} <br>",
+      "type": "code"
+    },
+    {
+      "code": "// Remove the unnecessary rows from the dataset..\ndata.shift()\ndata.pop()\ndata.length",
+      "status": "[5]<br><span style=\"font-size:8px\">0ms<span></span></span>",
+      "output": "35887 <br>",
+      "type": "code"
+    },
+    {
+      "code": "\n// Helper functions to load the data that is by converting and mapping the pixel values (to int and array) and then output array.\n\ntransformStringToArray = function (inputString) {\n  // Use split to separate the string into an array of strings\n  const stringArray = inputString.split(' ');\n  // Use map to convert each string into an integer\n  const intArray = stringArray.map(Number);\n  return intArray;\n  //return intArray.slice(0,100);\n}\n\noutputarray = function (index) {\n  \n  // Create an array of zeros with the specified length\n  const resultArray = Array(7).fill(0);\n  \n  // Make  the index 1 of the main element.\n  resultArray[index] = 1;\n\n  return resultArray;\n}",
+      "status": "[6]<br><span style=\"font-size:8px\">0ms<span></span></span>",
+      "output": "function (index) {\n  \n  // Create an array of zeros with the specified length\n  const resultArray = Array(7).fill(0);\n  \n  // Make  the index 1 of the main element.\n  resultArray[index] = 1;\n\n  return resultArray;\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "// Convert csv data into training and testing data format..\ntrainingData = []\ntestData = []\n\ndata.forEach(function(value){\n\n\tif (value[2] == \"PrivateTest\"){\n\t  testData.push({\n\t  \tinput: transformStringToArray(value[1]),\n\t\toutput: value[0]\n\t  });\n\t}\n\t\n\telse{\n\t\ttrainingData.push({\n\t  \tinput: transformStringToArray(value[1]),\n\t\toutput: outputarray(value[0])\n\t  });\n\t\t\t }\n})\n",
+      "status": "[18]<br><span style=\"font-size:8px\">4.671s<span></span></span>",
+      "output": "",
+      "type": "code"
+    },
+    {
+      "code": "<h1> Model And Training </h1>",
+      "status": "",
+      "output": "<h1> Model And Training </h1>",
+      "type": "html"
+    },
+    {
+      "code": "load_script(\"https://cdn.jsdelivr.net/npm/brain.js\") //Brain.js for models",
+      "status": "[19]<br><span style=\"font-size:8px\">1ms<span></span></span>",
+      "output": "{} <br>",
+      "type": "code"
+    },
+    {
+      "code": "// Code to store weights in a json file..\ndownload_json = function(net){\n//Serialize the mode;\nconst ModelValues=JSON.stringify(net.toJSON());\n//Download the file, push to cloud or store it IPFS. \ndownload_string(ModelValues,\"ModelValues.json\",\"data:text/json;charset=utf-8\")\n}\n// To load weights from json file..\ngetfromjson = function(){\nthen(x=>modelFromFile.fromJSON(JSON.parse(x)))\n}",
+      "status": "[20]<br><span style=\"font-size:8px\">0ms<span></span></span>",
+      "output": "function(){\nthen(x=&gt;modelFromFile.fromJSON(JSON.parse(x)))\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "normalizeInput = function (input) {\n  const normalizedInput = input.map(value => value / 255); // Scaling to [0, 1]\n  return normalizedInput;\n}",
+      "status": "[21]<br><span style=\"font-size:8px\">1ms<span></span></span>",
+      "output": "function (input) {\n  const normalizedInput = input.map(value =&gt; value / 255); // Scaling to [0, 1]\n  return normalizedInput;\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "trainingData = trainingData.map(({ input, output }) => ({\n  input: normalizeInput(input),\n  output,\n}));",
+      "status": "[-]",
+      "output": "<p class=\"error\">Invalid string length</p>",
+      "type": "code"
+    },
+    {
+      "code": "testData = testData.map(({ input, output }) => ({\n  input: normalizeInput(input),\n  output,\n}));",
+      "status": "[22]<br><span style=\"font-size:8px\">1.153s<span></span></span>",
+      "output": "<p class=\"error\">Object too large to show.</p><br>",
+      "type": "code"
+    },
+    {
+      "code": "// Function to get the index having maximum probbaility..\n\nMaxprob = function (obj) {\n  let maxKey = null;\n  let maxValue = -Infinity;\n\n  for (const key in obj) {\n    if (obj.hasOwnProperty(key) && typeof obj[key] === 'number') {\n      if (obj[key] > maxValue) {\n        maxValue = obj[key];\n        maxKey = key ;\n      }\n    }\n  }\n  return maxKey;\n}",
+      "status": "[23]<br><span style=\"font-size:8px\">1ms<span></span></span>",
+      "output": "function (obj) {\n  let maxKey = null;\n  let maxValue = -Infinity;\n\n  for (const key in obj) {\n    if (obj.hasOwnProperty(key) &amp;&amp; typeof obj[key] === 'number') {\n      if (obj[key] &gt; maxValue) {\n        maxValue = obj[key];\n        maxKey = key ;\n      }\n    }\n  }\n  return maxKey;\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "// Function for Accuarcy checking..\n\nacc_check = function(net,testData){\n  pass = 0\n\ntestData.forEach(function(value){\n\tif (value.output == Maxprob(net.run(value.input))){\n\t\tpass +=1;\n\t  show(value.output)\n\t}\n})\n\nreturn ((pass/testData.length)*100)\n}",
+      "status": "[24]<br><span style=\"font-size:8px\">0ms<span></span></span>",
+      "output": "function(net,testData){\n  pass = 0\n\ntestData.forEach(function(value){\n\tif (value.output == Maxprob(net.run(value.input))){\n\t\tpass +=1;\n\t  show(value.output)\n\t}\n})\n\nreturn ((pass/testData.length)*100)\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "shuffle = function (array) {\n  for (let i = array.length - 1; i > 0; i--) {\n    const j = Math.floor(Math.random() * (i + 1));\n    // Swap array[i] and array[j]\n    [array[i], array[j]] = [array[j], array[i]];\n\t  }\n  return  array;\n}",
+      "status": "[25]<br><span style=\"font-size:8px\">0ms<span></span></span>",
+      "output": "function (array) {\n  for (let i = array.length - 1; i &gt; 0; i--) {\n    const j = Math.floor(Math.random() * (i + 1));\n    // Swap array[i] and array[j]\n    [array[i], array[j]] = [array[j], array[i]];\n\t  }\n  return  array;\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "cnt_emo = function(data ,count_value){\n\ncount = 0\ndata.forEach(function(value){\n\t\t\t\t  \n\t\t\t\t  if (Maxprob(value.output) == count_value){\n\t\tcount +=1;\n}\n\t\t\t\t  })\n\treturn count;\n}",
+      "status": "[26]<br><span style=\"font-size:8px\">0ms<span></span></span>",
+      "output": "function(data ,count_value){\n\ncount = 0\ndata.forEach(function(value){\n\t\t\t\t  \n\t\t\t\t  if (Maxprob(value.output) == count_value){\n\t\tcount +=1;\n}\n\t\t\t\t  })\n\treturn count;\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "balance_data = function(data){\n  count_arr = [];\n  [0,1,2,3,4,5,6].forEach(function(value){\t\t\t\t\t\t  \n\t\t\t\t\t\t  count_arr.push(cnt_emo(data,value))\n\t\t\t\t\t\t  })\n\n\tleast = Math.min(...count_arr);\nimg_count_arr = [0,0,0,0,0,0,0];\nreturn_data =[];\n\ntrainingData.forEach(function(value){\n\t\t\t\t  \n  img_count = img_count_arr[Maxprob(value.output)]\n  \n  if (img_count < least){\n  \t\timg_count_arr[Maxprob(value.output)] +=1;\n\t\treturn_data.push(value);\n  }\t\t\t\t  \n\t})\n\treturn shuffle(return_data)\n}",
+      "status": "[27]<br><span style=\"font-size:8px\">0ms<span></span></span>",
+      "output": "function(data){\n  count_arr = [];\n  [0,1,2,3,4,5,6].forEach(function(value){\t\t\t\t\t\t  \n\t\t\t\t\t\t  count_arr.push(cnt_emo(data,value))\n\t\t\t\t\t\t  })\n\n\tleast = Math.min(...count_arr);\nimg_count_arr = [0,0,0,0,0,0,0];\nreturn_data =[];\n\ntrainingData.forEach(function(value){\n\t\t\t\t  \n  img_count = img_count_arr[Maxprob(value.output)]\n  \n  if (img_count &lt; least){\n  \t\timg_count_arr[Maxprob(value.output)] +=1;\n\t\treturn_data.push(value);\n  }\t\t\t\t  \n\t})\n\treturn shuffle(return_data)\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "newData = balance_data(trainingData)\nnewData.length",
+      "status": "[52]<br><span style=\"font-size:8px\">304ms<span></span></span>",
+      "output": "3444 <br>",
+      "type": "code"
+    },
+    {
+      "code": "//Training Data. This will take a while.\n net = new brain.NeuralNetwork();\n\n    // Train the network\n    net.train(newData, {\n      log: true,\n      logPeriod: 100,\n\t  iterations:1\n    });",
+      "status": "[53]<br><span style=\"font-size:8px\">188.135s<span></span></span>",
+      "output": "{\n  \"error\": 0.24503765785568,\n  \"iterations\": 1\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "    // Train the network\n    net.train(newData, {\n      log: true,\n      logPeriod: 100,\n\t  iterations:1\n    });",
+      "status": "[55]<br><span style=\"font-size:8px\">193.764s<span></span></span>",
+      "output": "{\n  \"error\": 0.24489720712618776,\n  \"iterations\": 1\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "acc_check(net,testData.slice(0,100))",
+      "status": "[56]<br><span style=\"font-size:8px\">339ms<span></span></span>",
+      "output": "4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>4 <br>18 <br>",
+      "type": "code"
+    },
+    {
+      "code": "train_model = function (net,data){\n\n  // Split the dataset into batches\nconst batchSize = 100;\n\nfor (let i = 0; i < data.length; i += batchSize) {\n  const batch = data.slice(i, i + batchSize);\n\n  // Train the model with the current batch\n  show(net.train(batch, {\n      logPeriod: 100,\n  \t\titerations: 1,\n\t// rningRate: 0.0001\n    }));\n}\n\n}",
+      "status": "[223]<br><span style=\"font-size:8px\">0ms<span></span></span>",
+      "output": "function (net,data){\n\n  // Split the dataset into batches\nconst batchSize = 100;\n\nfor (let i = 0; i &lt; data.length; i += batchSize) {\n  const batch = data.slice(i, i + batchSize);\n\n  // Train the model with the current batch\n  show(net.train(batch, {\n      logPeriod: 100,\n  \t\titerations: 1,\n\t// rningRate: 0.0001\n    }));\n}\n\n} <br>",
+      "type": "code"
+    },
+    {
+      "code": "download_json(net)",
+      "status": "[51]<br><span style=\"font-size:8px\">892ms<span></span></span>",
+      "output": "",
+      "type": "code"
+    }
+  ],
+  "source": "https://github.com/gopi-suvanam/jsnb",
+  "run_on_load": false
+}
