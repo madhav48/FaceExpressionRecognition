@@ -14,7 +14,6 @@ JavaScript Hackathon
   - Will have to think about it.
 
 - Transformations to be applied on the image.
-  - In process (Madhav)
   - Done
 
 - Models: CNN layers - To be decided ( can only be adjusted after checking the error for each combinations)
@@ -22,6 +21,9 @@ JavaScript Hackathon
     - Correct js library (CDN) to make a CNN model. (Involves some research)
 - Storing of model into another js file
 - Execution and testing using HTML and finally building the project.
+
+
+
 - So this was our plan and we succeeded in our plan. But there are some challenges:
   - Accuracy of Model
   - So this is the main issue and I have to further think about it because ML with js is really a great combo. It can be helpful in various applications like I am thinking about website( two way interaction types)..
