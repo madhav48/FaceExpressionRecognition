@@ -1,7 +1,27 @@
 # Facial Expression Classifier using Brain.js
 
-## Project Overview
+## Overview
 This project implements a facial expression classification model using **Brain.js**, a JavaScript-based neural network library. The model is trained to classify facial expressions from images, and it can also run in real-time using a webcam feed. The project covers dataset preprocessing, model training, evaluation, and real-time emotion detection.
+
+## Dataset Used: FER2013
+
+The **FER2013** dataset is a popular benchmark dataset for facial expression recognition. It contains over **35,000 labeled images** of human faces in grayscale, categorized into seven distinct emotions:
+
+- **Angry**
+- **Disgust**
+- **Fear**
+- **Happy**
+- **Sad**
+- **Surprise**
+- **Neutral**
+
+### Key Features:
+- **Image Format**: Each image is a 48x48 pixel grayscale image.
+- **Labels**: The emotions are labeled as numerical values ranging from 0 to 6, corresponding to the above emotions.
+- **Diversity**: The dataset includes variations in lighting, face orientation, and facial features, making it a comprehensive resource for training models in real-world conditions.
+
+The FER2013 dataset can be accessed through [Link](https://drive.google.com/file/d/1SLM3q8nA_wI37xsg7GNcmL_N66BELeMW/view?usp=sharing). 
+
 
 ## Dataset Preparation
 ### 1. Loading the Dataset
